@@ -1,0 +1,282 @@
+.el-button {
+	&.sty1-btn,
+	&.sty2-btn {
+		font-size: 16px;
+		border: none;
+		i {
+			font-size: 12px;
+			margin-left: 2px;
+		}
+	}
+
+	&.sty1-btn {
+		background-color: #000;
+	}
+
+	&.sty2-btn {
+		background-color: rgba(0, 0, 0, 0.05);
+		color: #000;
+		i {
+			color: #000;
+		}
+	}
+	&.sty3-btn {
+		font-size: 16px;
+		line-height: 16px;
+		color: #000000;
+		padding: 9px 16px;
+		margin-left: 0;
+	}
+	&.sty4-btn {
+		width: 100%;
+		background-color: #000;
+		font-family: 'Nunito';
+		font-weight: 700;
+		font-size: 16px;
+		line-height: 20px;
+		letter-spacing: -0.04em;
+		color: #FFFFFF;
+		padding: 13px 0;
+		border-radius: 32px;
+		&.is-disabled, &.is-disabled:focus, &.is-disabled:hover {
+			background: #000000;
+			opacity: 0.5;
+		}
+	}
+	&.sty5-btn {
+		width: 132px;
+		font-family: 'Nunito';
+		font-weight: 700;
+		font-size: 16px;
+		line-height: 20px;
+		letter-spacing: -0.04em;
+		border-radius: 26px;
+		border: none;
+		&.black {
+			background-color: #000;
+			color: #FFFFFF;
+		}
+		&.grey {
+			background: rgba(0, 0, 0, 0.05);
+			color: rgba(0, 0, 0, 0.75);
+		}
+	}
+	&.sty6-btn {
+		width: 76px;
+		height: 30px;
+		font-size: 14px;
+		line-height: 0;
+	}
+}
+
+.el-form {
+	&.sty1-form {
+		.el-form-item {
+			margin-bottom: 12px;
+			background: rgba(0, 0, 0, 0.02);
+			border: 1px solid rgba(0, 0, 0, 0.05);
+			border-radius: 8px;
+			padding: 0 6px 0 13px;
+			font-family: 'Nunito';
+			font-size: 16px;
+			line-height: 32px;
+			letter-spacing: -0.04em;
+			color: rgba(0, 0, 0, 0.75);
+		}
+	}
+}
+
+.el-input-number {
+  &.sty1-input-number {
+		.el-input__inner {
+			padding-right: 32px;
+			border: none;
+			height: 32px;
+			line-height: 32px;
+			background-color: transparent;
+			text-align: right;
+			font-family: 'Nunito';
+			font-size: 16px;
+			color: #000;
+		}
+		.el-input-number__decrease, .el-input-number__increase {
+			width: 16px;
+			border: none;
+			background-color: transparent;
+			color: #000;
+			&:hover {
+				color: #000;
+			}
+		}
+	}
+}
+.el-input {
+	&.sty1-input {
+		.el-input__inner {
+			border: none;
+			font-family: 'Nunito';
+			font-size: 16px;
+			line-height: 20px;
+			background-color: transparent;
+			text-align: right;
+		}
+	}
+}
+
+
+.el-tabs {
+	&.sty1-tabs {
+		.el-tabs__header {
+			margin: 0;
+		}
+		.el-tabs__nav-wrap::after {
+			display: none;
+		}
+		.el-tabs__item {
+			font-family: 'Nunito';
+			font-size: 18px;
+			line-height: 24px;
+			color: #000000;
+			height: 28px;
+			padding: 0 12px;
+		}
+		.el-tabs__item.is-active {
+			font-weight: 800;
+			font-size: 18px;
+			line-height: 26px;
+		}
+		.el-tabs__active-bar {
+			width: 10px !important;
+			height: 2px !important;
+			border-radius: 3px;
+			background-color: #000;
+			left: 30px;
+		}
+	}
+}
+
+.el-popover {
+	&.sty1-popover {
+		box-sizing: border-box;
+		min-width: 99px;
+		padding: 6px 0;
+		&.el-popper[x-placement^=bottom] {
+			margin-top: 6px;
+		}
+	}
+	&.sty2-popover {
+		box-sizing: border-box;
+		min-width: 99px;
+		background-color: #FAFAFA;
+		border-radius: 8px;
+		box-shadow: none;
+		padding: 0;
+		&.el-popper[x-placement^=bottom] .popper__arrow::after {
+			border-bottom-color: #FAFAFA;
+		}
+		&.el-popper[x-placement^=bottom] {
+			margin-top: 8px;
+		}
+	}
+}
+
+.el-table {
+	&.sty1-table {
+		font-family: 'Nunito';
+		color: #000;
+		line-height: 18px;
+		padding: 0 10px;
+		thead {
+			font-family: 'Nunito';
+			color: rgba(0, 0, 0, 0.45);
+			font-weight: 400;
+		}
+		&.el-table td.el-table__cell, &.el-table th.el-table__cell.is-leaf {
+			border: none;
+		}
+		&.el-table th.el-table__cell>.cell {
+			font-weight: 400;
+		}
+		.el-table__empty-block {
+			display: none;
+		}
+		&.el-table--border::after, &.el-table--group::after, &.el-table::before {
+			display: none;
+		}
+		.el-table__cell {
+			padding: 6px 0;
+		}
+		.cell {
+			line-height: 30px;
+		}
+	}
+}
+
+.el-dialog__wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.v-modal {
+	background: rgba(0, 0, 0, 0.6);
+
+}
+
+.el-dialog {
+	&.sty1-dialog {
+		margin: 0 !important;
+		border-radius: 16px;
+		overflow: hidden;
+		z-index: 0;
+		&::after {
+			content: '';
+			width: 100%;
+			height: 200px;
+			background: url('~@/assets/img/dialog-bg.png') no-repeat;
+			background-size: 100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: -1;
+		}
+		.el-dialog__header {
+			padding: 20px 20px 24px 20px;
+		}
+		.el-dialog__title {
+			font-family: 'Nunito';
+			font-weight: 800;
+			font-size: 16px;
+			line-height: 20px;
+			letter-spacing: -0.02em;
+			color: #000000;
+		}
+		.el-dialog__headerbtn {
+			right: 18px;
+		}
+		.el-dialog__headerbtn .el-dialog__close {
+			color: #000;
+			font-weight: 600;
+		}
+		.el-dialog__body {
+			padding: 0 20px;
+		}
+		.el-dialog__footer {
+			padding: 20px 48px 22px;
+		}
+	}
+}
+.el-slider {
+	&.sty1-slider {
+		.el-slider__runway {
+			background-color: rgba(0, 0, 0, 0.05);
+		}
+		.el-slider__bar {
+			background-color: #69D2F5;
+		}
+		.el-slider__button {
+			width: 10px;
+			height: 10px;
+			border-color: #69D2F5;
+		}
+	}
+}

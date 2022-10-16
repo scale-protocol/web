@@ -1,0 +1,273 @@
+.home {
+	position: relative;
+	&::after {
+		content: '';
+		width: 100%;
+		height: 750px;
+		background: url('~@/assets/img/bg.png') no-repeat;
+		background-size: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 0;
+	}
+	.mui-content {
+		.inner-content {
+			padding: 20px 60px;
+			position: relative;
+			z-index: 1;
+		}
+		.currency-list {
+			li {
+				box-sizing: border-box;
+				padding: 16px 15px;
+				width: 154px;
+				background: #FFFFFF !important;
+				border: 1px solid #FFFFFF;
+				border-radius: 12px;
+				&.eth {
+					background: linear-gradient(180deg, rgba(65, 186, 99, 0.12) 0%, rgba(65, 186, 99, 0) 100%), #FFFFFF;
+				}
+				img {
+					width: 32px;
+					height: 32px;
+					border-radius: 50%;
+					margin-right: 8px;
+				}
+				.symbol {
+					font-family: 'Nunito';
+					font-size: 12px;
+					line-height: 16px;
+					color: rgba(0, 0, 0, 0.45);
+				}
+				.price {
+					font-family: 'Dosis';
+					font-weight: 600;
+					font-size: 16px;
+					line-height: 20px;
+					color: #000000;
+					margin-top: 2px;
+				}
+				.change {
+					width: 76px;
+					height: 30px;
+					border-radius: 6px;
+					font-family: 'Dosis';
+					font-weight: 700;
+					font-size: 16px;
+					line-height: 30px;
+					text-align: center;
+					margin-top: 32px;
+					&.green {
+						background: rgba(118, 201, 140, 0.12);
+						color: #41BA63;
+					}
+					&.red {
+						background: rgba(231, 100, 100, 0.12);
+						color: #E76464;
+					}
+				}
+				&.active {
+					position: relative;
+					&::after {
+						content: '';
+						width: 10px;
+						height: 22px;
+						background: url('~@/assets/img/currency-active.png') no-repeat;
+						background-size: 100% 100%;
+						position: absolute;
+						right: -10px;
+						top: 0;
+						bottom: 0;
+						margin: auto;
+					}
+				}
+			}
+			li + li {
+				margin-top: 20px;
+			}
+		}
+
+		.echars {
+			margin-left: 20px;
+			background: pink;
+			background: #FFFFFF;
+			border-radius: 12px;
+			height: 475px;
+			.currency-info {
+				padding-top: 24px;
+			}
+			.c1 {
+				font-family: 'Nunito';
+				font-size: 16px;
+				line-height: 16px;
+				color: rgba(0, 0, 0, 0.45);
+				padding: 0 20px;
+				img {
+					width: 24px;
+					height: 24px;
+					margin-right: 8px;
+				}
+			}
+
+			.c2 {
+				margin-top: 4px;
+				border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+				padding: 0 20px 20px 20px;
+				.p {
+					font-family: 'Dosis';
+					font-weight: 700;
+					font-size: 32px;
+					line-height: 40px;
+					color: #000000;
+				}
+				ul > li {
+					margin-left: 32px;
+					p:nth-child(1) {
+						font-family: 'Nunito';
+						font-size: 12px;
+						line-height: 16px;
+						color: rgba(0, 0, 0, 0.45);
+					}
+					p:nth-child(2) {
+						font-family: 'Dosis';
+						font-weight: 700;
+						line-height: 18px;
+						color: #000000;
+					}
+					.green {
+						color: #41BA63 !important;
+					}
+					.red {
+						color: #E76464 !important;
+					}
+				}
+			}
+
+			.time-type {
+				margin-top: 12px;
+				font-family: 'Nunito';
+				font-size: 12px;
+				line-height: 20px;
+				color: rgba(0, 0, 0, 0.45);
+				padding: 0 20px;
+				li {
+					margin-right: 37px;
+					padding: 0 6px;
+					&.active {
+						border-radius: 35px;
+						background-color: #000000;
+						color: #FFFFFF;
+					}
+				}
+			}
+		}
+
+		.market {
+			box-sizing: border-box;
+			width: 330px;
+			padding: 24px 20px 28px 20px;
+			background: #FFFFFF;
+			border-radius: 12px;
+			margin-left: 20px;
+			.t1 {
+				font-family: 'Nunito';
+				font-style: normal;
+				font-weight: 800;
+				font-size: 18px;
+				line-height: 26px;
+				letter-spacing: -0.04em;
+				color: #000000;
+			}
+			.sell-btn {
+				margin: 16px 0 20px;
+				li {
+					padding: 6px;
+					border-radius: 8px;	
+					font-family: 'Nunito';
+					border: 1px solid transparent;
+					p:nth-child(1) {
+						line-height: 18px;
+					}
+					p:nth-child(2) {
+						font-weight: 700;
+						font-size: 16px;
+						line-height: 20px;
+						letter-spacing: -0.04em;
+					}
+				}
+				.red {
+					color: #E76464;
+					background: rgba(231, 100, 100, 0.1);
+					&.active {
+						border-color: #E76464;
+					}
+				}
+				.green {
+					color: rgba(65, 186, 99, 0.75);
+					background: rgba(65, 186, 99, 0.1);
+					&.active {
+						border-color: #41BA63;
+					}
+				}
+				li + li {
+					margin-left: 16px;
+				}
+			}
+			.progress {
+				width: 100%;
+				height: 10px;
+				border-radius: 10px;
+				position: relative;
+				background: rgba(0, 0, 0, 0.05);
+				.active {
+					position: absolute;
+					height: 10px;
+					border-radius: 10px;
+					background-color: #69D2F5 !important;
+					left: 0;
+				}
+				li {
+					width: 8px;
+					height: 8px;
+					background-color: #FFFFFF;
+					border: 1px solid	rgba(0, 0, 0, 0.05);
+					border-radius: 50%;
+					position: relative;
+					z-index: 1;
+				}
+			}
+			.progress-txt {
+				margin-top: 2px;
+				font-family: 'Nunito';
+				font-size: 12px;
+				line-height: 16px;
+				text-align: center;
+				letter-spacing: -0.04em;
+				color: rgba(0, 0, 0, 0.2);
+			}
+			.info {
+				font-family: 'Nunito';
+				font-size: 14px;
+				line-height: 18px;
+				letter-spacing: -0.04em;
+				margin-top: 44px;
+				margin-bottom: 16px;
+				li {
+					p:nth-child(1) {
+						color: rgba(0, 0, 0, 0.45);
+					}
+					p:nth-child(2) {
+						color: #000000;
+					}
+					.grey {
+						color: rgba(0, 0, 0, 0.45) !important;
+					}
+				}
+				li + li {
+					margin-top: 8px;
+				}
+			}
+		}
+	}
+}
