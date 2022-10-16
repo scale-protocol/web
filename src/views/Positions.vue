@@ -34,7 +34,8 @@
             v-if="activeName === 'position'"
             :data="positionList"
             class="sty1-table"
-            style="width: 100%">
+            style="width: 100%"
+            :row-class-name="tableRowClassName">
             <m-table-column prop="orderNum" label="Order Number" min-width="120" #default="{ row }">
               <p class="mui-fl-vert order-num">
                 <img :src="row.logo" alt="">{{ row.orderNum }}
@@ -62,7 +63,9 @@
             <m-table-column prop="margin" label="Magrin" min-width="100" />
             <m-table-column prop="opentime" label="Open Time" min-width="150" />
             <m-table-column prop="address" label="Action" min-width="120">
-              <m-button round class="sty5-btn grey sty6-btn taplight" @click="handleTip">Close</m-button>
+              <template #default="{ row, index }">
+                <m-button round class="sty5-btn grey sty6-btn taplight" @click="closePosition(row, index)">Close</m-button>
+              </template>
             </m-table-column>
           </m-table>
 
@@ -107,6 +110,37 @@
         </div>
       </div>
     </div>
+    
+    <m-dialog
+      title="Close Position"
+      :visible.sync="dialogVisible"
+      custom-class="sty1-dialog"
+      width="386px"
+      :before-close="handleClose">
+      <template>
+        <div class="sty2-gp mui-fl-vert">
+          <p>Close</p>
+          <m-input class="mui-fl-1 sty1-input" placeholder="Size" v-model="positionSizeFormate"></m-input>
+        </div>
+        <ul class="process mui-fl-vert">
+          <li v-for="(i, index) of process" :key="index" :class="{'mui-fl-1': 1, 'active': processActiveIndex === index}" @click="handleProcee(i, index)">{{ i }}%</li>
+        </ul>
+        <ul class="profit-ul">
+          <li class="mui-fl-vert mui-fl-btw">
+            <span>Profit</span>
+            <span class="green">+$45632.48</span>
+          </li>
+          <li class="mui-fl-vert mui-fl-btw">
+            <span>Expected return margin</span>
+            <span>$32.48</span>
+          </li>
+        </ul>
+      </template>
+      <span slot="footer" class="mui-fl-central">
+        <m-button class="sty5-btn grey" round @click="dialogVisible = false">Cancel</m-button>
+        <m-button type="primary" class="sty5-btn black" round @click="confirmClosePosition">Close</m-button>
+      </span>
+    </m-dialog>
   </div>
 </template>
 
@@ -120,6 +154,14 @@ export default {
       activeName: 'position',
       positionType: 'All',
       positionTypeList: ['All', 'BTC-USD', 'ETH-USD', 'SOL-USD'],
+      positionList0: fakedata.positionList,
+      historyList0: fakedata.historyList,
+      dialogVisible: false,
+      positionIndex: null,
+      positionSize: null,
+      positionSizeFormate: null,
+      processActiveIndex: 0,
+      process: [25, 50, 75, 100]
     }
   },
   computed: {
@@ -129,9 +171,9 @@ export default {
       }
       let list = []
       if (this.positionType === 'All') {
-        list = this.activeName === 'position' ? fakedata.positionList : fakedata.historyList
+        list = this.activeName === 'position' ? this.positionList0 : this.historyList0
       } else {
-        list = this.activeName === 'position' ? fakedata.positionList : fakedata.historyList
+        list = this.activeName === 'position' ? this.positionList0 : this.historyList0
         list = list.filter(v => v.symbol === this.positionType)
       }
       return list
@@ -141,9 +183,30 @@ export default {
     }
   },
   methods: {
+    tableRowClassName({row, rowIndex}) {
+        row.index = rowIndex;
+      },
     handleClick () {},
     handleTip () {
       this.$message('Coming soon!')
+    },
+    closePosition (row) {
+      this.dialogVisible = true
+      this.positionIndex = row.index
+      this.positionSize = row.size
+      this.positionSizeFormate = this.positionSize * 25 / 100
+    },
+    handleClose () {
+      this.dialogVisible = false
+      this.processActiveIndex = 0
+    },
+    handleProcee (i, index) {
+      this.processActiveIndex = index
+      this.positionSizeFormate = this.positionSize * i / 100
+    },
+    confirmClosePosition () {
+      this.positionList0.splice(this.positionIndex, 1)
+      this.handleClose()
     }
   }
 }

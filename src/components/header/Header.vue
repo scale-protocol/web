@@ -109,7 +109,7 @@
       </template>
       <span slot="footer" class="mui-fl-central">
         <m-button class="sty5-btn grey" round @click="tradeInfo.visible = false">Cancel</m-button>
-        <m-button type="primary" class="sty5-btn black" round @click="tradeInfo.visible = false">Close</m-button>
+        <m-button type="primary" class="sty5-btn black" round @click="tradeInfo.visible = false">Confirm</m-button>
       </span>
     </m-dialog>
 
@@ -128,9 +128,6 @@ export default {
         {
           name: 'Phamtom',
           logo: require('@/assets/img/phamtom.png')
-        },{
-          name: 'Slope',
-          logo: require('@/assets/img/slope.png')
         },{
           name: 'Sollet',
           logo: require('@/assets/img/sollet.png')
@@ -170,21 +167,6 @@ export default {
           const rp = await s.connect()
           this.account = rp.publicKey.toBase58()
           this.$store.commit('SET_PUBLICYKEY', this.account)
-        } catch (e) {
-          console.log('e', e)
-        }
-      } else if (i.name === 'Slope') {
-        if (!window.Slope) {
-          window.open('https://www.slope.finance/')
-        }
-        try {
-          // eslint-disable-next-line no-undef
-          const s = new Slope()
-          const rp = await s.connect()
-          if (rp.msg === 'ok') {
-            this.account = rp.data.publicKey
-            this.$store.commit('SET_PUBLICYKEY', this.account)
-          }
         } catch (e) {
           console.log('e', e)
         }

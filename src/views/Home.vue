@@ -77,11 +77,12 @@
             <m-form-item>
               <div class="mui-fl-vert mui-fl-btw">
                 <p>Leverage</p>
-                <m-input-number class="sty1-input-number" :min="1" :max="50" :step="1"  v-model="form.leverage" controls-position="right" placeholder="1-50X"></m-input-number>
+                <m-input-number class="sty1-input-number" :min="1" :max="125" :step="1"  v-model="form.leverage" controls-position="right" placeholder="1-125X"></m-input-number>
               </div>
             </m-form-item>
           </m-form>
-          <ul class="progress mui-fl-vert mui-fl-btw" >
+          <m-slider v-model="form.leverage" :marks="marks" :max="125" class="sty1-slider"></m-slider>
+          <!-- <ul class="progress mui-fl-vert mui-fl-btw" >
             <p v-if="form.leverage" class="active" :style="{ width: `${form.leverage / 50 * 100}%` }"></p>
             <li></li>
             <li></li>
@@ -95,7 +96,8 @@
             <li>25X</li>
             <li>37X</li>
             <li>50X</li>
-          </ul>
+          </ul> -->
+
 
           <ul class="info">
             <li class="mui-fl-vert mui-fl-btw">
@@ -231,7 +233,16 @@ export default {
       form: {
         type: '',
         orderSize: '0.01',
-        leverage: '1'
+        leverage: 1
+      },
+
+      marks: {
+          1: '1X',
+          25: '25X',
+          50: '50X',
+          75: '75X',
+          100: '100X',
+          125: '125X'
       },
 
       dialogVisible: false

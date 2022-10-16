@@ -45,7 +45,7 @@
     Tag,
     Tree,
     // Alert,
-    // Slider,
+    Slider,
     // Icon,
     // Row,
     Col,
@@ -119,7 +119,8 @@
     // 'm-modal': Modal,
     'm-popover': Popover,
     'm-tooltip': Tooltip,
-    'm-pagination': Pagination
+    'm-pagination': Pagination,
+    'm-slider': Slider
   }
   
   const install = function (Vue) {

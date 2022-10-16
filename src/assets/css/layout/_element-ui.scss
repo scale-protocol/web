@@ -265,3 +265,18 @@
 		}
 	}
 }
+.el-slider {
+	&.sty1-slider {
+		.el-slider__runway {
+			background-color: rgba(0, 0, 0, 0.05);
+		}
+		.el-slider__bar {
+			background-color: #69D2F5;
+		}
+		.el-slider__button {
+			width: 10px;
+			height: 10px;
+			border-color: #69D2F5;
+		}
+	}
+}

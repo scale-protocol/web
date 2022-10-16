@@ -96,3 +96,35 @@
 	letter-spacing: -0.04em;
 	color: rgba(0, 0, 0, 0.45);
 }
+.process {
+	background: rgba(0, 0, 0, 0.02);
+	border-radius: 4px;
+	margin-top: 8px;
+	li {
+		font-weight: 600;
+		font-size: 12px;
+		line-height: 20px;
+		text-align: center;
+		color: rgba(0, 0, 0, 0.2);
+		height: 20px;
+		cursor: pointer;
+		&.active {
+			color: #fff;
+			background: #000000;
+			border-radius: 4px;
+		}
+	}
+}
+
+.profit-ul {
+	font-size: 12px;
+	line-height: 16px;
+	color: rgba(0, 0, 0, 0.45);
+	padding-top: 10px;
+	li {
+		margin-top: 12px;
+	}
+	.green {
+		color: #41BA63;
+	}
+}
