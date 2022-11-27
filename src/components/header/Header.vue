@@ -5,22 +5,27 @@
         <div class="mui-fl-vert mui-fl-btw">
           <div class="mui-fl-vert">
             <div class="logo"></div>
-            <ul v-if="account" class="info mui-fl-vert">
+            <ul v-if="pubKey" class="info mui-fl-vert">
               <li>
                 <p>Balance</p>
-                <p>$99,231,52.00</p>
+                <p>${{ (userInfoAccount.balance || '--') | subRadio }}</p>
               </li>
               <li>
                 <p>Profit</p>
-                <p class="green">+$31,52.00 (+153.23%)</p>
+                <p :class="[plusAndMinus(userInfoDynamic.profit).className, 'mui-fl-vert']">
+                  <span>{{ plusAndMinus(userInfoDynamic.profit).sign }}{{ userInfoDynamic.profit | subRadio }}</span>
+                  <span>({{ plusAndMinus(userInfoDynamic.profit).sign }}{{ userInfoDynamic.profit_rate * 100 | subRadio }}%)</span>
+                </p>
               </li>
               <li>
                 <p>Margin</p>
-                <p>$99,231,52.00</p>
+                <p>${{ (userInfoAccount.margin_total) | subRadio }}</p>
               </li>
               <li class="verbar">
                 <p>Margin(%)</p>
-                <p>+1234.54%</p>
+                <p :class="[plusAndMinus(userInfoDynamic.profit).className]">
+                  {{ plusAndMinus(userInfoDynamic.profit).sign }}{{ userInfoDynamic.margin_percentage * 100 | subRadio }} %
+                </p>
               </li>
               <div class="btns">
                 <m-button type="text" class="sty3-btn" @click="handleTrade('Deposit')">Deposit</m-button>
@@ -38,11 +43,11 @@
                 <i class="icon-arrow" />
               </p>
             </div>
-            <m-button v-if="!account" class="sty1-btn" :class="[account ? 'sty2-btn' : 'sty1-btn']" type="primary" size="small" round @click="handleClkConnect">
-              <span v-if="!account">Connect</span>
+            <m-button v-if="!pubKey" class="sty1-btn" :class="[pubKey ? 'sty2-btn' : 'sty1-btn']" type="primary" size="small" round @click="handleClkConnect">
+              <span v-if="!pubKey">Connect</span>
               <i class='el-icon-arrow-right' />
             </m-button>
-            
+
             <m-popover
               v-else
               placement="bottom-end"
@@ -54,9 +59,9 @@
                 <img src="~@/assets/img/disconnect.png" alt="">
                 Disconnect
               </div>
-              
+
               <m-button slot="reference" class="sty2-btn" type="primary" size="small" round @click="handleClkConnect">
-                <span>{{ account | formatPubKey }}</span>
+                <span>{{ pubKey | formatPubKey }}</span>
                 <i class='el-icon-arrow-right' />
               </m-button>
             </m-popover>
@@ -66,12 +71,12 @@
     </div>
     <router-view></router-view>
 
-    
     <m-dialog
       title="Connect Wallet"
-      :visible.sync="connectDialogVisible"
+      :visible="_connectDialogVisible"
       custom-class="sty1-dialog"
-      width="386px">
+      width="386px"
+      @close="handleConnectClose">
       <ul class="sty5-gp">
         <li v-for='(i, index) of walletList' :key="index" class="taplight mui-fl-vert mui-fl-btw" @click="connectWallet(i)">
           <div class="mui-fl-vert">
@@ -87,51 +92,70 @@
       :title="tradeInfo.type + ' Margin'"
       :visible.sync="tradeInfo.visible"
       custom-class="sty1-dialog"
-      width="386px"
-      @close="value = ''">
+      width="386px">
       <template>
         <div class="mui-fl-vert mui-fl-btw wallet-info">
           <p>Wallet</p>
-          <p class="pubkey mui-fl-vert taplight2">
-            {{ account | formatPubKey }}
-            <img src="~@/assets/img/arrow-right.png" alt="">
+          <p class="pubkey mui-fl-vert">
+            {{ pubKey | formatPubKey }}
+            <!-- <img src="~@/assets/img/arrow-right.png" alt=""> -->
           </p>
         </div>
         <div class="sty2-gp">
-          <m-input class="mui-fl-1 sty1-input" placeholder="USDC" type='number' v-model="value"></m-input>
+          <m-input class="mui-fl-1 sty1-input" placeholder="USDC" type='number' v-model="amount"></m-input>
         </div>
         <p v-if="tradeInfo.type === 'Withdraw'" class="sty1-tip">
           Your maigin: $45643.47
         </p>
         <p v-if="tradeInfo.type === 'Deposit'" class="sty1-tip">
-          Your wallet: $45643.47
+          Your wallet: ${{ userInfoAccount.balance }}
         </p>
       </template>
       <span slot="footer" class="mui-fl-central">
         <m-button class="sty5-btn grey" round @click="tradeInfo.visible = false">Cancel</m-button>
-        <m-button type="primary" class="sty5-btn black" round @click="tradeInfo.visible = false">Confirm</m-button>
+        <m-button type="primary" class="sty5-btn black" round :disabled="amount === ''" :loading="confirmLoading" @click="handleConfirm">Confirm</m-button>
       </span>
     </m-dialog>
 
+    <m-dialog
+      :visible.sync="welcomeDialog"
+      custom-class="sty1-dialog"
+      width="386px">
+      <template>
+        <div class="welcome mui-fl-col mui-fl-vert">
+          <img src="~@/assets/img/welcome.png" alt="">
+          <p class="t1">Welcome !</p>
+          <p class="t2">If you are new to Scale, please read our introduction, it may help you</p>
+        </div>
+      </template>
+      <span slot="footer" class="mui-flex">
+        <m-button class="mui-fl-1 sty7-button" round @click="goGitbook">Go</m-button>
+        <!-- <m-button class="sty5-btn grey" round @click="tradeInfo.visible = false">Cancel</m-button>
+        <m-button type="primary" class="sty5-btn black" round :disabled="amount === ''" :loading="confirmLoading" @click="handleConfirm">Confirm</m-button> -->
+      </span>
+    </m-dialog>
 
   </div>
 </template>
 
 <script>
+import mixin from '@/utils/mixin'
+import { mapState, mapGetters } from 'vuex'
+import { BN } from '@project-serum/anchor'
 export default {
   name: 'Header',
+  mixins: [mixin],
   data () {
     return {
-      account: '',
-      connectDialogVisible: false,
+      // connectDialogVisible: false,
       walletList: [
         {
-          name: 'Phamtom',
+          name: 'Phantom',
           logo: require('@/assets/img/phamtom.png')
-        },{
+        }, {
           name: 'Sollet',
           logo: require('@/assets/img/sollet.png')
-        },{
+        }, {
           name: 'Connet Wallet',
           logo: require('@/assets/img/connet-wallet.png')
         }
@@ -140,33 +164,76 @@ export default {
         visible: false,
         type: ''
       },
-      value: ''
+      amount: '',
+      interval: null,
+      confirmLoading: false,
+
+      welcomeDialog: false
+      // welcomeDialog: true
     }
   },
   computed: {
-    conn () {
-      return this.$store.getters.conn
+    ...mapState(['pubKey', 'userAccount', 'userInfo', 'connectDialogVisible']),
+    ...mapGetters(['conn']),
+    userInfoAccount () {
+      return this.userInfo ? this.userInfo.account : {}
+    },
+    userInfoDynamic () {
+      return this.userInfo ? this.userInfo.dynamic_data : {}
+    },
+    _connectDialogVisible: {
+      get () {
+        return this.connectDialogVisible
+      },
+      set (v) {
+        this.connectDialogVisible = v
+      }
     }
   },
   created () {
+    // pyth ws 获取链上价格
     this.$store.dispatch('getCurrencyPrice')
+
+    // 轮询实时获取用户信息
+    this.interval = setInterval(() => {
+      this.getUserInfo()
+    }, 5000)
+
+    // 自动链接钱包
+    setTimeout(() => {
+      if (localStorage.getItem('walName')) {
+        this.connectWallet({ name: 'Phantom' })
+      }
+    }, 500)
+  },
+  destroyed () {
+    clearInterval(this.interval)
   },
   methods: {
     handleClkConnect () {
-      if (!this.account) {
-        this.connectDialogVisible = true
+      if (!this.pubKey) {
+        this.$store.commit('SET_CONNECTDIALOGVISIBLE', true)
       }
     },
+    handleConnectClose () {
+      this.$store.commit('SET_CONNECTDIALOGVISIBLE', false)
+    },
     async connectWallet (i) {
-      if (i.name === 'Phamtom') {
+      if (i.name === 'Phantom') {
         if (!window.solana) {
           window.open('https://phantom.app/')
         }
         try {
           const s = window.solana
           const rp = await s.connect()
-          this.account = rp.publicKey.toBase58()
-          this.$store.commit('SET_PUBLICYKEY', this.account)
+          const pubKey = rp.publicKey.toBase58()
+          this.$store.commit('SET_PUBLICYKEY', pubKey)
+          await this.createUserAccount()
+          if (!localStorage.getItem('walName')) {
+            this.welcomeDialog = true
+          }
+          localStorage.setItem('walName', i.name)
+          this.getUserInfo()
         } catch (e) {
           console.log('e', e)
         }
@@ -174,11 +241,13 @@ export default {
         this.handleTip()
         return
       }
-      this.connectDialogVisible = false
+      this.$store.commit('SET_CONNECTDIALOGVISIBLE', false)
     },
     disconnect () {
-      this.account = ''
-      this.$store.commit('SET_PUBLICYKEY', this.account)
+      const s = window.solana
+      s.disconnect()
+      localStorage.removeItem('walName', '')
+      this.$store.commit('SET_PUBLICYKEY', '')
     },
     handleTrade (type) {
       this.tradeInfo.visible = true
@@ -186,6 +255,39 @@ export default {
     },
     handleTip () {
       this.$message('Coming soon!')
+    },
+    async handleConfirm () {
+      this.confirmLoading = true
+      if (this.tradeInfo.type === 'Deposit') {
+        const aa = await this.deposit(this.amount)
+        if (aa) {
+          this.$message.success('Deposit success!')
+        } else {
+          this.$message('Deposit fail!')
+        }
+      } else if (this.tradeInfo.type === 'Withdraw') {
+        this.handleTip()
+      }
+      this.confirmLoading = false
+      this.tradeInfo.visible = false
+    },
+    getUserInfo () {
+      if (this.userAccount) {
+        this.$store.dispatch('getUserInfo')
+        this.$store.dispatch('getPositions', { prefix: 'active' })
+        this.$store.dispatch('getPositions', { prefix: 'history' })
+      }
+    },
+    plusAndMinus (num) {
+      const flag = (new BN(num)).gt(new BN(0))
+      return {
+        sign: flag ? '+' : '',
+        className: flag ? 'green' : 'red'
+      }
+    },
+    goGitbook () {
+      window.open('https://scaleprotocol.gitbook.io/scale-protocol-1/')
+      this.welcomeDialog = false
     }
   }
 }

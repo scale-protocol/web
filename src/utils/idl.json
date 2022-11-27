@@ -1,0 +1,1104 @@
+{
+  "version": "0.1.0",
+  "name": "bond",
+  "instructions": [
+    {
+      "name": "initializeVault",
+      "docs": [
+        "Generate system vault account"
+      ],
+      "accounts": [
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "vaultAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ],
+      "returns": "publicKey"
+    },
+    {
+      "name": "initializeMarket",
+      "docs": [
+        "create market"
+      ],
+      "accounts": [
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "marketAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "pair",
+          "type": "string"
+        },
+        {
+          "name": "spread",
+          "type": "f64"
+        },
+        {
+          "name": "bump",
+          "type": "u8"
+        },
+        {
+          "name": "pythPriceAccount",
+          "type": "string"
+        },
+        {
+          "name": "chianlinkPriceAccount",
+          "type": "string"
+        }
+      ],
+      "returns": "publicKey"
+    },
+    {
+      "name": "initializeUserAccount",
+      "accounts": [
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bump",
+          "type": "u8"
+        }
+      ],
+      "returns": "publicKey"
+    },
+    {
+      "name": "deposit",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "openPosition",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "positionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pythPriceAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "chianlinkPriceAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketAccountBtc",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketAccountEth",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketAccountSol",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pythPriceAccountBtc",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pythPriceAccountEth",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pythPriceAccountSol",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "chainlinkPriceAccountBtc",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "chainlinkPriceAccountEth",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "chainlinkPriceAccountSol",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "pair",
+          "type": "string"
+        },
+        {
+          "name": "size",
+          "type": "f64"
+        },
+        {
+          "name": "leverage",
+          "type": "u16"
+        },
+        {
+          "name": "positionType",
+          "type": "u8"
+        },
+        {
+          "name": "direction",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "closePosition",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "positionAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pythPriceAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "chianlinkPriceAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "identity",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "investment",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "marketAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "pair",
+          "type": "string"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "divestment",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pdaAuthorityAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "marketAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "pair",
+          "type": "string"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Market",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "maxLeverage",
+            "docs": [
+              "Maximum allowable leverage ratio"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "managementRate",
+            "docs": [
+              "position management rate, space for future derived values"
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "transactionRate",
+            "docs": [
+              "transaction rate , space for future derived values"
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "insuranceRate",
+            "docs": [
+              "insurance rate"
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "marginRate",
+            "docs": [
+              "margin rate,Current constant positioning 100%"
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "status",
+            "docs": [
+              "Market status:",
+              "1 Normal;",
+              "2. Lock the market, allow closing settlement and not open positions;",
+              "3 The market is frozen, and opening and closing positions are not allowed."
+            ],
+            "type": {
+              "defined": "MarketStatus"
+            }
+          },
+          {
+            "name": "vaultFull",
+            "docs": [
+              "Total amount of outstanding NFT bonds."
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "vaultBaseBalance",
+            "docs": [
+              "Token balance of basic current fund."
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "vaultProfitBalance",
+            "docs": [
+              "Token balance of profit and loss fund"
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "vaultInsuranceBalance",
+            "docs": [
+              "Insurance fund token balance"
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "longPositionTotal",
+            "docs": [
+              "Total amount of long positions in the market"
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "shortPositionTotal",
+            "docs": [
+              "Total amount of short positions in the market"
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "authority",
+            "docs": [
+              "Market administrator account address"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "operator",
+            "docs": [
+              "Market operator address, with authority to operate rate, up to 5 can be set."
+            ],
+            "type": {
+              "array": [
+                "publicKey",
+                5
+              ]
+            }
+          },
+          {
+            "name": "pythPriceAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "chianlinkPriceAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "pair",
+            "docs": [
+              "Transaction pair (token type, such as BTC, ETH)",
+              "len: 4+20"
+            ],
+            "type": "string"
+          },
+          {
+            "name": "spread",
+            "docs": [
+              "Point difference (can be understood as slip point),",
+              "deviation between the executed quotation and the actual quotation"
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "officer",
+            "docs": [
+              "Market operator, 1 project party, other marks to be defined"
+            ],
+            "type": "bool"
+          },
+          {
+            "name": "isSupportFullPosition",
+            "docs": [
+              "Whether full position  mode is supported"
+            ],
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Position",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "positionSeedOffset",
+            "type": "u32"
+          },
+          {
+            "name": "margin",
+            "docs": [
+              "Initial position margin"
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "leverage",
+            "docs": [
+              "leverage size"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "positionType",
+            "docs": [
+              "1 full position mode, 2 independent position modes."
+            ],
+            "type": {
+              "defined": "PositionType"
+            }
+          },
+          {
+            "name": "positionStatus",
+            "docs": [
+              "Position status: 1 normal, 2 normal closing, 3 Forced closing, 4 pending."
+            ],
+            "type": {
+              "defined": "PositionStatus"
+            }
+          },
+          {
+            "name": "direction",
+            "docs": [
+              "1 buy long, 2 sell short."
+            ],
+            "type": {
+              "defined": "Direction"
+            }
+          },
+          {
+            "name": "size",
+            "docs": [
+              "the position size"
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "lot",
+            "docs": [
+              "default is 1,Reserved in the future"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "openPrice",
+            "type": "f64"
+          },
+          {
+            "name": "openSpread",
+            "docs": [
+              "Point difference data on which the quotation is based"
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "openRealPrice",
+            "type": "f64"
+          },
+          {
+            "name": "closePrice",
+            "docs": [
+              "Closing quotation"
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "closeSpread",
+            "docs": [
+              "Point difference data on which the quotation is based"
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "closeRealPrice",
+            "type": "f64"
+          },
+          {
+            "name": "profit",
+            "type": "f64"
+          },
+          {
+            "name": "stopSurplusPrice",
+            "docs": [
+              "Automatic profit stop price"
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "stopLossPrice",
+            "docs": [
+              "Automatic stop loss price"
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "createTime",
+            "docs": [
+              "Order creation time"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "openTime",
+            "type": "i64"
+          },
+          {
+            "name": "closeTime",
+            "type": "i64"
+          },
+          {
+            "name": "validityTime",
+            "docs": [
+              "The effective time of the order.",
+              "If the position is not opened successfully after this time in the order listing mode,",
+              "the order will be closed directly"
+            ],
+            "type": "i64"
+          },
+          {
+            "name": "openOperator",
+            "docs": [
+              "Opening operator (the user manually, or the clearing robot in the listing mode)"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "closeOperator",
+            "docs": [
+              "Account number of warehouse closing operator (user manual, or clearing robot Qiangping)"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "docs": [
+              "Wallet account number of the position"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "marketAccount",
+            "docs": [
+              "Market account number of the position"
+            ],
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "docs": [
+              "Account owner wallet address"
+            ],
+            "type": "publicKey"
+          },
+          {
+            "name": "positionSeedOffset",
+            "docs": [
+              "The position offset.",
+              "This value is increased by one each time the position is opened to determine",
+              "the seeds index number of the position (this value can be used as the order number)."
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "balance",
+            "docs": [
+              "Balance of user account (maintain the deposit,",
+              "and the balance here will be deducted when the deposit used in the full position mode is deducted)"
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "profit",
+            "docs": [
+              "User settled profit"
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "marginTotal",
+            "docs": [
+              "Total amount of margin used."
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "marginFullTotal",
+            "docs": [
+              "Total amount of used margin in full warehouse mode."
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "marginIndependentTotal",
+            "docs": [
+              "Total amount of used margin in independent position mode."
+            ],
+            "type": "f64"
+          },
+          {
+            "name": "marginFullBuyTotal",
+            "type": "f64"
+          },
+          {
+            "name": "marginFullSellTotal",
+            "type": "f64"
+          },
+          {
+            "name": "marginIndependentBuyTotal",
+            "type": "f64"
+          },
+          {
+            "name": "marginIndependentSellTotal",
+            "type": "f64"
+          },
+          {
+            "name": "positionFullVector",
+            "type": "u32"
+          },
+          {
+            "name": "drv1",
+            "docs": [
+              "space for future derived values"
+            ],
+            "type": "u8"
+          },
+          {
+            "name": "drv2",
+            "docs": [
+              "space for future derived values"
+            ],
+            "type": "u16"
+          },
+          {
+            "name": "drv3",
+            "docs": [
+              "space for future derived values"
+            ],
+            "type": "u32"
+          },
+          {
+            "name": "drv4",
+            "docs": [
+              "space for future derived values"
+            ],
+            "type": "u64"
+          },
+          {
+            "name": "openPositionIndex",
+            "docs": [
+              "Open order offset set"
+            ],
+            "type": {
+              "vec": "u32"
+            }
+          },
+          {
+            "name": "closePositionIndex",
+            "docs": [
+              "Closed order offset set"
+            ],
+            "type": {
+              "vec": "u32"
+            }
+          },
+          {
+            "name": "openFullPositionHeaders",
+            "docs": [
+              "The position header being opened, which is used to calculate the account net value"
+            ],
+            "type": {
+              "vec": {
+                "defined": "PositionHeader"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "PositionHeader",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "positionSeedOffset",
+            "type": "u32"
+          },
+          {
+            "name": "openPrice",
+            "type": "f64"
+          },
+          {
+            "name": "direction",
+            "type": {
+              "defined": "Direction"
+            }
+          },
+          {
+            "name": "size",
+            "type": "f64"
+          },
+          {
+            "name": "margin",
+            "type": "f64"
+          },
+          {
+            "name": "market",
+            "type": {
+              "defined": "FullPositionMarket"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "FullPositionMarket",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "BtcUsd"
+          },
+          {
+            "name": "EthUsd"
+          },
+          {
+            "name": "SolUsd"
+          },
+          {
+            "name": "None"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MarketStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Normal"
+          },
+          {
+            "name": "Locked"
+          },
+          {
+            "name": "Frozen"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PositionType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Full"
+          },
+          {
+            "name": "Independent"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PositionStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Normal"
+          },
+          {
+            "name": "NormalClosing"
+          },
+          {
+            "name": "ForceClosing"
+          },
+          {
+            "name": "Pending"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Direction",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Buy"
+          },
+          {
+            "name": "Sell"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "CategoryTooLong",
+      "msg": "Pair does not exceed 20 bytes"
+    },
+    {
+      "code": 6001,
+      "name": "InvalidFullPositionMarket",
+      "msg": "invalid full position market"
+    },
+    {
+      "code": 6002,
+      "name": "UserTransactionAccountMismatch",
+      "msg": "User transaction account mismatch"
+    },
+    {
+      "code": 6003,
+      "name": "InsufficientBalance",
+      "msg": "Insufficient user token account balance"
+    },
+    {
+      "code": 6004,
+      "name": "IllegalMarketAccount",
+      "msg": "Illegal market account"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidPubkey",
+      "msg": "Invalid pubkey"
+    },
+    {
+      "code": 6006,
+      "name": "GetPriceFailedFromPyth",
+      "msg": "can not get price from pyth.network"
+    },
+    {
+      "code": 6007,
+      "name": "GetPriceFailedFromChainLink",
+      "msg": "can not get price from chainlink"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidPriceAccount",
+      "msg": "invalid price account"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidParameterOfPosition",
+      "msg": "Illegal instruction parameter, please check it"
+    },
+    {
+      "code": 6010,
+      "name": "RiskControlBlocking",
+      "msg": "Risk control, it is not allowed to open new positions"
+    },
+    {
+      "code": 6011,
+      "name": "InsufficientMargin",
+      "msg": "Insufficient margin available"
+    },
+    {
+      "code": 6012,
+      "name": "InsufficientBalanceForUser",
+      "msg": "Insufficient balance to open a new position"
+    },
+    {
+      "code": 6013,
+      "name": "MarketNotSupportOpenPosition",
+      "msg": "The market does not support opening this type of position"
+    },
+    {
+      "code": 6014,
+      "name": "MarketPauses",
+      "msg": "The market pauses to open new positions"
+    },
+    {
+      "code": 6015,
+      "name": "MarketFrozen",
+      "msg": "The market has been frozen and cannot be settled."
+    },
+    {
+      "code": 6016,
+      "name": "FullPositionExceededLimit",
+      "msg": "The position in this mode has exceeded the limit"
+    },
+    {
+      "code": 6017,
+      "name": "AccountNumberNotMatch",
+      "msg": "Account number does not match"
+    },
+    {
+      "code": 6018,
+      "name": "NoPermission",
+      "msg": "No permission to perform this operation"
+    },
+    {
+      "code": 6019,
+      "name": "InsufficientVaultBalance",
+      "msg": "The balance of the treasury is insufficient, and the withdrawal operation cannot be performed temporarily"
+    },
+    {
+      "code": 6020,
+      "name": "PositionStatusInvalid",
+      "msg": "The position status is not supported"
+    }
+  ],
+  "metadata": {
+    "address": "ECte5vr5zJkRVnEPY9XPkgq3JFfFkthrMKxLk6gfa7v4"
+  }
+}
