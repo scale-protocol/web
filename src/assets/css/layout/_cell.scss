@@ -3,6 +3,7 @@
   padding: 0 40px;
   margin: 0 auto;
 }
+
 @media screen and (max-width: 1300px) {
   .section {
     padding: 0 20px;
@@ -10,7 +11,9 @@
 }
 
 @media screen and (max-width: 767px) {
-  .section, .section-pad2 {
+
+  .section,
+  .section-pad2 {
     padding-left: 16px;
     padding-right: 16px;
   }

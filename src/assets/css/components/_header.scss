@@ -1,89 +1,120 @@
-
 	.mui-header {
-		position: sticky;
-		top: 0;
-		z-index: 100;
-		background: rgba(255, 255, 255, 0.86);
-    backdrop-filter: blur(32px);
-		height: 78px;
-		.logo {
-			width: 132px;
-			height: 78px;
-			background: url('~@/assets/img/logo.png') 0 50% no-repeat;
-			background-size: 100%;
-		}
-		.info {
-			li {
-				margin-left: 32px;
-				p:nth-child(1) {
-					font-family: 'Nunito';
-					font-size: 12px;
-					line-height: 16px;
-					color: rgba(0, 0, 0, 0.45);
+	  position: sticky;
+	  top: 0;
+	  z-index: 100;
+	  background: rgba(255, 255, 255, 0.86);
+	  backdrop-filter: blur(32px);
+	  height: 78px;
+	  width: 100%;
+	  min-width: 1360px;
+
+	  .logo {
+	    width: 132px;
+	    height: 78px;
+	    background: url('~@/assets/img/logo.png') 0 50% no-repeat;
+	    background-size: 100%;
+	  }
+
+	  .info {
+	    li {
+	      margin-left: 32px;
+
+	      p:nth-child(1) {
+	        font-family: 'Nunito';
+	        font-size: 12px;
+	        line-height: 16px;
+	        color: rgba(0, 0, 0, 0.45);
+	      }
+
+	      p:nth-child(2) {
+	        font-family: 'Dosis';
+	        font-weight: 700;
+	        line-height: 18px;
+	        color: #000000;
+	      }
+
+	      .green {
+	        color: #41BA63 !important;
+	      }
+				.red {
+					color: #E76464 !important;
 				}
-				p:nth-child(2) {
-					font-family: 'Dosis';
-					font-weight: 700;
-					line-height: 18px;
-					color: #000000;
-				}
-        .green {
-          color: #41BA63 !important;
-        }
-			}
-			.verbar {
-				&::after {
-					right: -32px;
-				}
-			}
-			.btns {
-				margin-left: 64px;
-				background: rgba(0, 0, 0, 0.05);
-				border-radius: 21px;
-				.line {
-					display: inline-block;
-					width: 1px;
-					height: 10px;
-					background-color: rgba(0, 0, 0, 0.05);
-				}
-			}
-		}
-		.global {
-			margin-right: 32px;
-			span {
-				margin: 0 2px 0 4px;
-				font-family: Titillium Web;
-				font-size: 16px;
-				line-height: 24px;
-				color: #000000;
-			}
-		}
-		.verbar {
-			position: relative;
-			&::after {
-				content: '';
-				width: 1px;
-				height: 24px;
-				background-color: rgba(0, 0, 0, 0.05);
-				position: absolute;
-				top: 0;
-				bottom: 0;
-				right: -16px;
-				margin: auto;
-			}
-		}
+	    }
+
+	    .verbar {
+	      &::after {
+	        right: -32px;
+	      }
+	    }
+
+	    .btns {
+	      margin-left: 64px;
+	      background: rgba(0, 0, 0, 0.05);
+	      border-radius: 21px;
+
+	      .line {
+	        display: inline-block;
+	        width: 1px;
+	        height: 10px;
+	        background-color: rgba(0, 0, 0, 0.05);
+	      }
+	    }
+	  }
+
+	  .global {
+	    margin-right: 32px;
+
+	    span {
+	      margin: 0 2px 0 4px;
+	      font-family: Titillium Web;
+	      font-size: 16px;
+	      line-height: 24px;
+	      color: #000000;
+	    }
+	  }
+
+	  .verbar {
+	    position: relative;
+
+	    &::after {
+	      content: '';
+	      width: 1px;
+	      height: 24px;
+	      background-color: rgba(0, 0, 0, 0.05);
+	      position: absolute;
+	      top: 0;
+	      bottom: 0;
+	      right: -16px;
+	      margin: auto;
+	    }
+	  }
 	}
 
-  .disconnect {
-    font-family: 'Nunito';
-    font-size: 14px;
-    line-height: 18px;
-    letter-spacing: -0.04em;
-    color: #E76464;
-    padding: 12px;
-    img {
-      width: 16px;
-      height: 16px;
-      margin-right: 4px;
-    }
-  }
+	.disconnect {
+	  font-family: 'Nunito';
+	  font-size: 14px;
+	  line-height: 18px;
+	  letter-spacing: -0.04em;
+	  color: #E76464;
+	  padding: 12px;
+
+	  img {
+	    width: 16px;
+	    height: 16px;
+	    margin-right: 4px;
+	  }
+	}
+	
+	.welcome {
+		img {
+			width: 80px;
+			height: 80px;
+		}
+		.t1 {
+			font-weight: 700;
+			font-size: 24px;
+			line-height: 32px;
+			color: #000000;
+			margin-top: 8px;
+		}
+	}
