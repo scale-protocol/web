@@ -288,7 +288,7 @@ export default {
         const flag = (new BN(num)).gt(new BN(0))
         return {
           sign: flag ? '+' : '',
-          className: !flag ? 'red' : 'green'
+          className: flag ? 'red' : 'green'
         }
       } else {
         return {
