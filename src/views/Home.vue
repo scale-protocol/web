@@ -87,11 +87,11 @@
           <ul class="info">
             <li class="mui-fl-vert mui-fl-btw">
               <p>Available</p>
-              <p>$45632.48</p>
+              <p>${{ available | subRadio}}</p>
             </li>
             <li class="mui-fl-vert mui-fl-btw">
               <p>Margin</p>
-              <p>${{ (userInfo?.account.margin_total) | subRadio }}</p>
+              <p>${{ (userInfo?.account.margin_total || 0) | subRadio }}</p>
             </li>
             <li class="mui-fl-vert mui-fl-btw">
               <p>Gas Fee</p>
@@ -169,6 +169,7 @@ import * as echarts from 'echarts'
 import mixin from '@/utils/mixin'
 import tradePair from '@/utils/trade-pair'
 import Positions from './Positions.vue'
+import BigNumber from 'bignumber.js'
 
 let chart = null
 let candleSeries = null
@@ -220,6 +221,9 @@ export default {
     },
     pubKey () {
       return this.$store.state.pubKey
+    },
+    available () {
+      return new BigNumber(this.userInfo?.account?.margin_total || 0).minus(new BigNumber(this.userInfo?.dynamic_data?.equity || 0))
     }
   },
   watch: {
@@ -230,8 +234,8 @@ export default {
       this.currencyList.forEach(v => {
         if (n && n.product && v.symbolOrigin === n.product.symbol) {
           v.price = n.price.price.toFixed(2)
-          v.sellPrice = (n.price.price - v.symbol === 'ETH-USD' ? 10 : 50).toFixed(2)
-          v.buyPrice = (n.price.price + v.symbol === 'ETH-USD' ? 10 : 50).toFixed(2)
+          v.sellPrice = (n.price.price - (v.symbol === 'ETH-USD' ? 10 : 50)).toFixed(2)
+          v.buyPrice = (n.price.price + (v.symbol === 'ETH-USD' ? 10 : 50)).toFixed(2)
         }
       })
     }

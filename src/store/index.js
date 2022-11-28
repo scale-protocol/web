@@ -47,17 +47,22 @@ export default new Vuex.Store({
   },
   actions: {
     getCurrencyPrice ({ state, getters, commit }) {
-      const pythConnection = new PythConnection(getters.conn, getPythProgramKeyForCluster(state.endpoint))
-      pythConnection.onPriceChange((product, price) => {
-        if (product) {
-          if (product.symbol === 'Crypto.BTC/USD' || product.symbol === 'Crypto.ETH/USD' || product.symbol === 'Crypto.SOL/USD') {
-            commit('SET_CURRENCY_PRICE', {
-              product, price
-            })
+      console.log('conn', getters.conn)
+      try {
+        const pythConnection = new PythConnection(getters.conn, getPythProgramKeyForCluster(state.endpoint))
+        pythConnection.onPriceChange((product, price) => {
+          if (product) {
+            if (product.symbol === 'Crypto.BTC/USD' || product.symbol === 'Crypto.ETH/USD' || product.symbol === 'Crypto.SOL/USD') {
+              commit('SET_CURRENCY_PRICE', {
+                product, price
+              })
+            }
           }
-        }
-      })
-      pythConnection.start()
+        })
+        pythConnection.start()
+      } catch (e) {
+        console.log('e', e)
+      }
     },
     async getUserInfo ({ state, commit }) {
       const rp = await Vue.prototype.$api.request('chain.getUserInfo', {

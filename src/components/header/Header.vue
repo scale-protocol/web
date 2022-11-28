@@ -8,23 +8,23 @@
             <ul v-if="pubKey" class="info mui-fl-vert">
               <li>
                 <p>Balance</p>
-                <p>${{ (userInfoAccount.balance || '--') | subRadio }}</p>
+                <p>${{ (userInfoAccount.balance) | subRadio }}</p>
               </li>
               <li>
                 <p>Profit</p>
-                <p :class="[plusAndMinus(userInfoDynamic.profit).className, 'mui-fl-vert']">
-                  <span>{{ plusAndMinus(userInfoDynamic.profit).sign }}{{ userInfoDynamic.profit | subRadio }}</span>
-                  <span>({{ plusAndMinus(userInfoDynamic.profit).sign }}{{ userInfoDynamic.profit_rate * 100 | subRadio }}%)</span>
+                <p :class="[plusAndMinus(userInfoDynamic?.profit || undefined).className || '', 'mui-fl-vert']">
+                  <span>{{ plusAndMinus(userInfoDynamic?.profit).sign }}{{ (userInfoDynamic?.profit || 0) | subRadio }}</span>
+                  <span>({{ plusAndMinus(userInfoDynamic?.profit).sign }}{{ (userInfoDynamic.profit_rate || 0) * 100 | subRadio }}%)</span>
                 </p>
               </li>
               <li>
                 <p>Margin</p>
-                <p>${{ (userInfoAccount.margin_total) | subRadio }}</p>
+                <p>${{ (userInfoAccount.margin_total || 0) | subRadio }}</p>
               </li>
               <li class="verbar">
                 <p>Margin(%)</p>
                 <p :class="[plusAndMinus(userInfoDynamic.profit).className]">
-                  {{ plusAndMinus(userInfoDynamic.profit).sign }}{{ userInfoDynamic.margin_percentage * 100 | subRadio }} %
+                  {{ plusAndMinus(userInfoDynamic.profit).sign }}{{ (userInfoDynamic.margin_percentage || 0)* 100 | subRadio }} %
                 </p>
               </li>
               <div class="btns">
@@ -179,7 +179,7 @@ export default {
       return this.userInfo ? this.userInfo.account : {}
     },
     userInfoDynamic () {
-      return this.userInfo ? this.userInfo.dynamic_data : {}
+      return this.userInfo ? this.userInfo.dynamic_data || {} : {}
     },
     _connectDialogVisible: {
       get () {
@@ -219,11 +219,13 @@ export default {
       this.$store.commit('SET_CONNECTDIALOGVISIBLE', false)
     },
     async connectWallet (i) {
+      const loadingInstance = this.$loading({ fullscreen: true })
       if (i.name === 'Phantom') {
         if (!window.solana) {
           window.open('https://phantom.app/')
         }
         try {
+          this.$store.commit('SET_CONNECTDIALOGVISIBLE', false)
           const s = window.solana
           const rp = await s.connect()
           const pubKey = rp.publicKey.toBase58()
@@ -234,14 +236,16 @@ export default {
           }
           localStorage.setItem('walName', i.name)
           this.getUserInfo()
+
+          loadingInstance.close()
         } catch (e) {
           console.log('e', e)
+          this.$message.error(e.message)
+          loadingInstance.close()
         }
       } else {
         this.handleTip()
-        return
       }
-      this.$store.commit('SET_CONNECTDIALOGVISIBLE', false)
     },
     disconnect () {
       const s = window.solana
@@ -254,15 +258,15 @@ export default {
       this.tradeInfo.type = type
     },
     handleTip () {
-      this.$message('Coming soon!')
+      this.$message.info('Coming soon!')
     },
     async handleConfirm () {
       this.confirmLoading = true
       if (this.tradeInfo.type === 'Deposit') {
         const aa = await this.deposit(this.amount)
-        if (aa) {
+        if (aa === true) {
           this.$message.success('Deposit success!')
-        } else {
+        } else if (aa === 'no balance') {} else {
           this.$message('Deposit fail!')
         }
       } else if (this.tradeInfo.type === 'Withdraw') {
@@ -270,6 +274,7 @@ export default {
       }
       this.confirmLoading = false
       this.tradeInfo.visible = false
+      this.amount = ''
     },
     getUserInfo () {
       if (this.userAccount) {
@@ -279,10 +284,17 @@ export default {
       }
     },
     plusAndMinus (num) {
-      const flag = (new BN(num)).gt(new BN(0))
-      return {
-        sign: flag ? '+' : '',
-        className: flag ? 'green' : 'red'
+      if (num !== undefined) {
+        const flag = (new BN(num)).gt(new BN(0))
+        return {
+          sign: flag ? '+' : '',
+          className: !flag ? 'red' : 'green'
+        }
+      } else {
+        return {
+          sign: '',
+          className: ''
+        }
       }
     },
     goGitbook () {

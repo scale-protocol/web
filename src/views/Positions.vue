@@ -207,7 +207,7 @@ export default {
       })
     },
     handleView (row) {
-      this.$message('Coming soon!')
+      this.$message.info('Coming soon!')
       console.log(row)
       console.log(new PublicKey(row.pubkey).toBase58())
     },

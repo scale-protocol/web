@@ -121,13 +121,30 @@ const mui = {
   'm-pagination': Pagination,
   'm-slider': Slider
 }
+const resetMessage = options => {
+  return Message({
+    ...options,
+    offset: 88
+  })
+}
+['success', 'warning', 'info', 'error'].forEach(type => {
+  resetMessage[type] = options => {
+    if (typeof options === 'string') {
+      options = {
+        message: options,
+        offset: 88
+      }
+    }
+    options.type = type
+    return Message(options)
+  }
+})
 
 const install = function (Vue) {
   Object.keys(mui).forEach((key) => {
     Vue.component(key, mui[key])
   })
-
-  Object.defineProperty(Vue.prototype, '$message', { value: Message })
+  Object.defineProperty(Vue.prototype, '$message', { value: resetMessage })
 }
 
 // auto install
