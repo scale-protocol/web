@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.f4b460bd9e53af2e18ec504e8bed78ca.js"
+  "/precache-manifest.2b4f5f4a8a8c1f41d970f4ecff0059b3.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "scale-web"});
