@@ -1,7 +1,6 @@
 // import Vue from 'vue'
 import np from './number-precision'
 import BigNumber from 'bignumber.js'
-import { BN } from '@project-serum/anchor'
 
 export const formatPubKey = (account) => {
   return account ? account.substr(0, 4) + '...' + account.substr(-4, 4) : ''
@@ -35,7 +34,7 @@ export const timestampDate = (timestamp, type) => {
  * @param {*} num 接收的值
  */
 export const plusAndMinus = (num) => {
-  const flag = (new BN(num)).gt(new BN(0))
+  const flag = (new BigNumber(num)).gt(new BigNumber(0))
   return {
     sign: flag ? '+' : '-',
     className: flag ? 'green' : 'red'

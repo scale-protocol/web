@@ -15,6 +15,7 @@ Vue.use(filters)
 Vue.use(Loading.directive) // element-ui 的 loading 指令，用于在组件中使用“v-loading”来实现菊花加载
 // Vue的原型扩展
 Object.defineProperty(Vue.prototype, '$api', { value: api }) // 服务端 api 请求
+Object.defineProperty(Vue.prototype, '$loading', { value: Loading.service })
 
 new Vue({
   router,

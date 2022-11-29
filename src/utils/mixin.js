@@ -5,6 +5,7 @@ import idl from './idl.json'
 import { confirmTx } from './contract'
 import { PublicKey, SystemProgram } from '@solana/web3.js'
 import { Provider, Program, BN } from '@project-serum/anchor'
+import BigNumber from 'bignumber.js'
 
 const PAIR = {
   BTC: 'BTC/USD',
@@ -87,12 +88,14 @@ export default {
   methods: {
     // 空投
     async airDrop () {
-      const rp = await this.conn.requestAirdrop(new PublicKey('6imhP9ec6sNXy7Dn19wq4hjL1oUtthtGHUEwtuCTGNL8'), 1000000000)
+      const rp = await this.conn.requestAirdrop(new PublicKey(this.pubKey), 1000000000)
       console.log('rp', rp)
     },
     // 新建用户交易账号
     async createUserAccount () {
-      // await this.airDrop()
+      if (new BigNumber(this.conn.getBalance(this.pubKey)).lt(new BigNumber(1))) {
+        await this.airDrop()
+      }
       const [userAccount, bump] = await PublicKey.findProgramAddress(
         [Buffer.from('scale_user_account'), this.authority.toBuffer()],
         PROGRAM_ID
@@ -140,7 +143,8 @@ export default {
           }).rpc()
       } catch (e) {
         console.log(e)
-        return
+        this.$message.error('USDC is not enough in your wallet')
+        return 'no balance'
       }
       try {
         console.log(txid)

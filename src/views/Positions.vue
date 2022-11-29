@@ -25,7 +25,7 @@
             </m-popover> -->
             <p class="profit">
               <span>Profit:</span>
-              <span class="green">+$62022.31</span>
+              <span :class="[plusAndMinus(userInfoDynamic?.profit).className, 'mui-fl-vert']">{{ plusAndMinus(userInfoDynamic?.profit).sign }}{{ (userInfoDynamic?.profit || 0) | subRadio }}</span>
             </p>
           </div>
         </div>
@@ -38,7 +38,8 @@
             :row-class-name="tableRowClassName">
             <m-table-column prop="orderNum" label="Order Number" min-width="120" #default="{ row }">
               <p class="mui-fl-vert order-num">
-                <img :src="row.logo" alt="">#{{ row.account.position_seed_offset }}
+                <!-- <img :src="row.logo" alt=""> -->
+                #{{ row.account.position_seed_offset }}
               </p>
             </m-table-column>
 
@@ -53,17 +54,20 @@
             </m-table-column>
             <m-table-column prop="open" label="Open" min-width="90">
               <template #default="{ row }">
-                ${{ row.account.open_price }}
+                ${{ row.account.open_price | subRadio }}
               </template>
             </m-table-column>
             <m-table-column prop="latest" label="Latest" min-width="110" />
             <m-table-column prop="profit" label="Profit" min-width="110" #default="{ row }">
-              <p :class="{ 'green': row.account.profit > 0, 'red': row.account.profit < 0 }">
-                {{ row.account.profit > 0 ? '+$' : '-$' }}{{ row.account.profit }}
+              <p :class="[plusAndMinus(row.account.profit).className]">
+                {{ plusAndMinus(row.account.profit).sign }}${{ row.account.profit | subRadio }}
               </p>
+              <!-- <p :class="{ 'green': row.account.profit > 0, 'red': row.account.profit < 0 }">
+                {{ plusAndMinus(row.account.profit).sign}}${{ row.account.profit | subRadio }}
+              </p> -->
             </m-table-column>
             <m-table-column prop="margin" label="Magrin" min-width="100" #default="{ row }">
-              ${{ row.account.margin }}
+              ${{ row.account.margin | subRadio }}
             </m-table-column>
             <m-table-column prop="opentime" label="Open Time" min-width="150" #default="{ row }">
               {{ row.account.open_time | timestampDate }}
@@ -82,7 +86,8 @@
             style="width: 100%">
             <m-table-column prop="orderNum" label="Order Number" min-width="120" #default="{ row }">
               <p class="mui-fl-vert order-num">
-                <img :src="row.logo" alt="">#{{ row.account.position_seed_offset }}
+                <!-- <img :src="row.logo" alt=""> -->
+                #{{ row.account.position_seed_offset }}
               </p>
             </m-table-column>
 
@@ -96,11 +101,11 @@
               <p class="leverage">{{ row.account.leverage }}X</p>
             </m-table-column>
             <m-table-column prop="closePrice" label="Close Price" min-width="125" #default="{ row }">
-              ${{ row.account.close_price }}
+              ${{ row.account.close_price | subRadio }}
             </m-table-column>
             <m-table-column prop="profit" label="Profit" min-width="110" #default="{ row }">
-              <p :class="{ 'green': row.account.profit > 0, 'red': row.account.profit < 0 }">
-                {{ row.account.profit > 0 ? '+$' : '-$' }}{{ row.account.profit }}
+              <p :class="[plusAndMinus(row.account.profit).className]">
+                {{ plusAndMinus(row.account.profit).sign }}${{ Math.abs(row.account.profit) | subRadio }}
               </p>
             </m-table-column>
             <m-table-column prop="closetime" label="Close Time" min-width="150" #default="{ row }">
@@ -159,6 +164,7 @@
 import mixin from '@/utils/mixin'
 import { mapState } from 'vuex'
 import { PublicKey } from '@solana/web3.js'
+import BigNumber from 'bignumber.js'
 
 export default {
   name: 'Position',
@@ -179,7 +185,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['positionsList', 'hisPositionsList', 'userAccount', 'pubKey']),
+    ...mapState(['positionsList', 'hisPositionsList', 'userAccount', 'pubKey', 'userInfo']),
+    userInfoDynamic () {
+      return this.userInfo ? this.userInfo.dynamic_data || {} : {}
+    },
     tableData () {
       if (!this.pubKey) {
         return []
@@ -207,9 +216,7 @@ export default {
       })
     },
     handleView (row) {
-      this.$message('Coming soon!')
-      console.log(row)
-      console.log(new PublicKey(row.pubkey).toBase58())
+      this.$message.info('Coming soon!')
     },
     closePosition (row) {
       row.loading = true
@@ -232,6 +239,19 @@ export default {
     confirmClosePosition () {
       this.positionList0.splice(this.positionIndex, 1)
       this.handleClose()
+    },
+    plusAndMinus (num) {
+      if (Number(num) === 0) {
+        return {
+          sign: '',
+          className: ''
+        }
+      }
+      const flag = (new BigNumber(num)).gt(new BigNumber(0))
+      return {
+        sign: flag ? '+' : '-',
+        className: flag ? 'green' : 'red'
+      }
     }
   }
 }
