@@ -389,6 +389,12 @@ export default {
       this.form.orderSize = this.form.orderSize === undefined ? '0.01' : this.form.orderSize
     },
     plusAndMinus (num) {
+      if (Number(num) === 0) {
+        return {
+          sign: '',
+          className: ''
+        }
+      }
       const flag = (new BigNumber(num)).gt(new BigNumber(0))
       return {
         sign: flag ? '+' : '-',
