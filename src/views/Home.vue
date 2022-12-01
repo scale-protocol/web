@@ -87,11 +87,11 @@
           <ul class="info">
             <li class="mui-fl-vert mui-fl-btw">
               <p>Available</p>
-              <p>${{ available | subRadio}}</p>
+              <p>{{ plusAndMinus(available).sign }}${{ Math.abs(available) | subRadio}}</p>
             </li>
             <li class="mui-fl-vert mui-fl-btw">
               <p>Margin</p>
-              <p>${{ (userInfo?.account.margin_total || 0) | subRadio }}</p>
+              <p>${{ (margin || 0) | subRadio }}</p>
             </li>
             <li class="mui-fl-vert mui-fl-btw">
               <p>Gas Fee</p>
@@ -225,6 +225,10 @@ export default {
     available () {
       // 可用保证金 = 净值-已用保证金（实时更新）
       return new BigNumber(this.userInfo?.dynamic_data?.equity || 0).minus(new BigNumber(this.userInfo?.account?.margin_total || 0))
+    },
+    margin () {
+      // size * price * leverage
+      return this.activeCurrency.sellPrice ? new BigNumber(this.form.orderSize).times(new BigNumber(this.form.type === 'SELL' ? this.activeCurrency.sellPrice : this.activeCurrency.buyPrice)).times(new BigNumber(this.form.leverage)) : 0
     }
   },
   watch: {
@@ -235,8 +239,8 @@ export default {
       this.currencyList.forEach(v => {
         if (n && n.product && v.symbolOrigin === n.product.symbol) {
           v.price = n.price.price.toFixed(2)
-          v.sellPrice = (n.price.price - (v.symbol === 'ETH-USD' ? 10 : 50)).toFixed(2)
-          v.buyPrice = (n.price.price + (v.symbol === 'ETH-USD' ? 10 : 50)).toFixed(2)
+          v.sellPrice = (n.price.price - (v.symbol === 'ETH-USD' ? 5 : 50)).toFixed(2)
+          v.buyPrice = (n.price.price + (v.symbol === 'ETH-USD' ? 5 : 50)).toFixed(2)
         }
       })
     }
@@ -383,6 +387,13 @@ export default {
     // 失焦判断用户是否输入size，如果没有默认为0.01
     handleBlurSize () {
       this.form.orderSize = this.form.orderSize === undefined ? '0.01' : this.form.orderSize
+    },
+    plusAndMinus (num) {
+      const flag = (new BigNumber(num)).gt(new BigNumber(0))
+      return {
+        sign: flag ? '+' : '-',
+        className: flag ? 'green' : 'red'
+      }
     }
   }
 }

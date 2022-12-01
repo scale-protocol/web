@@ -23,9 +23,9 @@
                 <img src="~@/assets/img/arrow-right.png" alt="" class="img-arrow">
               </div>
             </m-popover> -->
-            <p class="profit">
+            <p v-if="pubKey" class="profit mui-fl-vert">
               <span>Profit:</span>
-              <span :class="[plusAndMinus(userInfoDynamic?.profit).className, 'mui-fl-vert']">{{ plusAndMinus(userInfoDynamic?.profit).sign }}{{ (userInfoDynamic?.profit || 0) | subRadio }}</span>
+              <span :class="[plusAndMinus(userInfoDynamic?.profit).className, 'mui-fl-vert']">{{ plusAndMinus(userInfoDynamic?.profit).sign }}${{ (Math.abs(userInfoDynamic?.profit) || 0) | subRadio }}</span>
             </p>
           </div>
         </div>
@@ -57,7 +57,7 @@
                 ${{ row.account.open_price | subRadio }}
               </template>
             </m-table-column>
-            <m-table-column prop="latest" label="Latest" min-width="110" />
+            <!-- <m-table-column prop="latest" label="Latest" min-width="110" /> -->
             <m-table-column prop="profit" label="Profit" min-width="110" #default="{ row }">
               <p :class="[plusAndMinus(row.account.profit).className]">
                 {{ plusAndMinus(row.account.profit).sign }}${{ row.account.profit | subRadio }}
@@ -215,7 +215,7 @@ export default {
         }
       })
     },
-    handleView (row) {
+    handleView () {
       this.$message.info('Coming soon!')
     },
     closePosition (row) {

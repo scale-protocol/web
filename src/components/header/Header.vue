@@ -13,8 +13,8 @@
               <li>
                 <p>Profit</p>
                 <p :class="[plusAndMinus(userInfoDynamic?.profit || undefined).className || '', 'mui-fl-vert']">
-                  <span>{{ plusAndMinus(userInfoDynamic?.profit).sign }}{{ (userInfoDynamic?.profit || 0) | subRadio }}</span>
-                  <span>({{ plusAndMinus(userInfoDynamic?.profit).sign }}{{ (userInfoDynamic.profit_rate || 0) * 100 | subRadio }}%)</span>
+                  <span>{{ plusAndMinus(userInfoDynamic?.profit).sign }}{{ (Math.abs(userInfoDynamic?.profit) || 0) | subRadio }}</span>
+                  <span>({{ plusAndMinus(userInfoDynamic?.profit).sign }}{{ (Math.abs(userInfoDynamic.profit_rate) || 0) * 100 | subRadio }}%)</span>
                 </p>
               </li>
               <li>
@@ -108,7 +108,7 @@
           Your balance: ${{ (userInfoAccount.balance) | subRadio }}
         </p>
         <p v-if="tradeInfo.type === 'Deposit'" class="sty1-tip">
-          Your wallet: ${{ userInfoAccount.balance | subRadio }} / USDC
+          Your wallet: ${{ userInfoAccount.balance | subRadio }}
         </p>
       </template>
       <span slot="footer" class="mui-fl-central">
@@ -266,6 +266,7 @@ export default {
         const aa = await this.deposit(this.amount)
         if (aa === true) {
           this.$message.success('Deposit success!')
+        // eslint-disable-next-line no-empty
         } else if (aa === 'no balance') {} else {
           this.$message('Deposit fail!')
         }
