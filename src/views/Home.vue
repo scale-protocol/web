@@ -228,7 +228,7 @@ export default {
     },
     margin () {
       // size * price * leverage
-      return this.activeCurrency.sellPrice ? new BigNumber(this.form.orderSize).times(new BigNumber(this.form.type === 'SELL' ? this.activeCurrency.sellPrice : this.activeCurrency.buyPrice)).times(new BigNumber(this.form.leverage)) : 0
+      return this.activeCurrency.sellPrice ? new BigNumber(this.form.orderSize).times(new BigNumber(this.form.type === 'SELL' ? this.activeCurrency.sellPrice : this.activeCurrency.buyPrice)).dividedBy(new BigNumber(this.form.leverage)) : 0
     }
   },
   watch: {
